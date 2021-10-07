@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
+import { AuthService } from "./auth/auth.service";
 import { SocketService } from './socketio/socket.service';
 import { Customer } from "./types/customer";
 
@@ -13,8 +14,11 @@ export class AppComponent {
 
   public constructor(
     private readonly wss: SocketService,
+    private readonly authService: AuthService,
     private readonly toastr: ToastrService,
   ) {
+
+    this.authService.init();
 
     this.wss.on(
       "new-customer",
@@ -33,5 +37,9 @@ export class AppComponent {
       }
     );
 
+  }
+
+  public login() {
+    this.authService.login();
   }
 }

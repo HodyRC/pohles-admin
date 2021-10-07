@@ -1,7 +1,7 @@
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { RouterModule } from "@angular/router";
 import { ToastrModule } from 'ngx-toastr';
 
@@ -14,6 +14,8 @@ import { AppRoutingModule } from "./app-routing.module";
 import { ComponentsModule } from "./components/components.module";
 import { CustomersComponent } from './pages/customers/customers.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { LoginComponent } from './views/login/login.component';
+import { AuthInterceptor } from "./auth/auth.interceptor";
 
 @NgModule({
   imports: [
@@ -26,8 +28,8 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     AppRoutingModule,
     ToastrModule.forRoot()
   ],
-  declarations: [AppComponent, AdminLayoutComponent, CustomersComponent, NotFoundComponent],
-  providers: [],
+  declarations: [AppComponent, AdminLayoutComponent, CustomersComponent, NotFoundComponent, LoginComponent],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
